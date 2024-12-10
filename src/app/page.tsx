@@ -7,12 +7,13 @@ import {
   reset,
   incrementByAmount,
 } from "./redux/slices/counterSlice";
+import Link from "next/link";
 
 export default function Home() {
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch: AppDispatch = useDispatch();
   return (
-    <div className=" flex justify-center h-screen bg-slate-800 p-10">
+    <div className=" flex flex-col items-center   h-screen bg-slate-800 p-10">
       <div className=" text-lg text-white  uppercase ">
         Welcome to the ecommerce app{" "}
       </div>
@@ -40,9 +41,13 @@ export default function Home() {
           onClick={() => dispatch(reset())}
           className="px-4 py-2 bg-purple-500 text-white rounded-md"
         >
-         Reset
+          Reset
         </button>
       </div>
+
+      <Link href="/home">
+        <p className="text-blue-500 hover:text-blue-700">Go to Home Page</p>
+      </Link>
     </div>
   );
 }
