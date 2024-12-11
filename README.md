@@ -17,7 +17,7 @@ https://github.com/sinha-niranjan/next-js-project.git
 
 3. Install dependencies
 
-   ```bash
+```bash
    npm install
    ```
 4. run the app
