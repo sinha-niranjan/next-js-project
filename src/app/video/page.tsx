@@ -64,22 +64,29 @@ const InteractiveVideo = () => {
   const [visibleProduct, setVisibleProduct] = useState<OverlayProduct | null>(
     null
   );
+  const [lastProductId, setLastProductId] = useState<number | null>(null);
   const cart = useSelector((state: RootState) => state.cart);
   const products = useSelector((state: RootState) => state.products);
 
   useEffect(() => {
     setHydration(true);
   }, []);
-  // Check if any product should be shown at the current timestamp
+
   useEffect(() => {
     const productToShow = OverlayProducts.find(
-      (product) => Math.floor(currentTime) === product.timestamp
+      (product) =>
+        currentTime >= product.timestamp && currentTime < product.timestamp + 1
     );
-    if (productToShow) {
+    if (productToShow && productToShow.product.id !== lastProductId) {
       setVisibleProduct(productToShow);
+      setLastProductId(productToShow.product.id);
+      const timer = setTimeout(() => {
+        
+        setVisibleProduct(null);
+        setLastProductId(null);
+      }, 1000);
+      return () => clearTimeout(timer);
     }
-    const timer = setTimeout(() => setVisibleProduct(null), 5000);
-    return () => clearTimeout(timer);
   }, [currentTime]);
 
   // Handle adding a product to the cart
@@ -97,10 +104,9 @@ const InteractiveVideo = () => {
 
   return (
     <div className="min-h-screen bg-slate-800 flex flex-col items-center justify-center py-10">
-      <h1 className="text-3xl font-bold mb-6">🎉 Interactive Video Player</h1>
+      <h1 className="text-3xl font-bold mb-6"> Video Player</h1>
 
       <div className="relative w-full flex items-center justify-center  max-w-3xl">
-        {/* Video Player */}
         <ReactPlayer
           url="https://youtu.be/hxMNYkLN7tI?si=syvTxEaTUmCP5v-g"
           playing={true}
