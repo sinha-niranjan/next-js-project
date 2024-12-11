@@ -32,3 +32,7 @@ pnpm dev
 bun dev
 ```
 
+Description: in this  app there are three route 
+"/" => for home page
+"/cart" => for cart page
+"/video" => for video page
