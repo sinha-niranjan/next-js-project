@@ -1,53 +1,37 @@
 "use client";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import Card from "@/components/Card";
 import { AppDispatch, RootState } from "./redux/store";
-import {
-  increment,
-  decrement,
-  reset,
-  incrementByAmount,
-} from "./redux/slices/counterSlice";
-import Link from "next/link";
 
-export default function Home() {
-  const count = useSelector((state: RootState) => state.counter.value);
+import { fetchProduct } from "./redux/slices/productSlice";
+
+const Home = () => {
   const dispatch: AppDispatch = useDispatch();
-  return (
-    <div className=" flex flex-col items-center   h-screen bg-slate-800 p-10">
-      <div className=" text-lg text-white  uppercase ">
-        Welcome to the ecommerce app{" "}
-      </div>
-      <div className="my-5">
-        <h2 className="text-xl">Count: {count}</h2>
-        <button
-          onClick={() => dispatch(increment())}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md mr-2"
-        >
-          Increment
-        </button>
-        <button
-          onClick={() => dispatch(decrement())}
-          className="px-4 py-2 bg-red-500 text-white rounded-md mr-2"
-        >
-          Decrement
-        </button>
-        <button
-          onClick={() => dispatch(incrementByAmount(5))}
-          className="px-4 py-2 bg-green-500 text-white rounded-md"
-        >
-          Increment by 5
-        </button>{" "}
-        <button
-          onClick={() => dispatch(reset())}
-          className="px-4 py-2 bg-purple-500 text-white rounded-md"
-        >
-          Reset
-        </button>
-      </div>
+  const { products, loading, error } = useSelector(
+    (state: RootState) => state.products
+  );
 
-      <Link href="/home">
-        <p className="text-blue-500 hover:text-blue-700">Go to Home Page</p>
-      </Link>
+  useEffect(() => {
+    dispatch(fetchProduct());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading .... </p>;
+  if (error) return <p>Error: {error}</p>;
+  return (
+    <div className="min-h-screen bg-slate-800 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5   gap-10 p-10">
+        {products.map((product) => {
+          return (
+            <div className=" " key={product.id}>
+              <Card product={product} />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
-}
+};
+
+export default Home;

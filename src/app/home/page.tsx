@@ -19,7 +19,7 @@ const Home = () => {
   if (error) return <p>Error: {error}</p>;
   return (
     <div className="min-h-screen bg-slate-800 ">
-      <div className="grid grid-cols-4 gap-10 p-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5   gap-10 p-10">
         {products.map((product) => {
           return (
             <div className=" " key={product.id}>

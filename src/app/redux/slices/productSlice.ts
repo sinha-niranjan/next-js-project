@@ -1,10 +1,8 @@
 import {
-  asyncThunkCreator,
   createAsyncThunk,
-  createSlice,
+  createSlice
 } from "@reduxjs/toolkit";
 import axios from "axios";
-import build from "next/dist/build";
 
 export interface Product {
   id: number;
